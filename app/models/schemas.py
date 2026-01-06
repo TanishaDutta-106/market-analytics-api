@@ -13,3 +13,9 @@ class VolatilityRequest(BaseModel):
 
 class VolatilityResponse(BaseModel):
     volatility: float
+
+class ReturnsRequest(BaseModel):
+    prices: List[float]
+
+class ReturnsResponse(BaseModel):
+    returns: float
