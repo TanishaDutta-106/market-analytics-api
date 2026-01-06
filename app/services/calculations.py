@@ -17,3 +17,9 @@ def calculate_volatility(prices: List[float]) -> float:
     mean = sum(prices) / len(prices)
     variance = sum((p - mean) ** 2 for p in prices) / len(prices)
     return math.sqrt(variance)
+
+def calculate_returns(prices: List[float]) -> float:
+    if len(prices) < 2:
+        raise ValueError("At least two price points are required")
+
+    return (prices[-1] - prices[0]) / prices[0]
