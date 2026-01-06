@@ -7,3 +7,9 @@ class MovingAverageRequest(BaseModel):
 
 class MovingAverageResponse(BaseModel):
     moving_average: float
+
+class VolatilityRequest(BaseModel):
+    prices: List[float]
+
+class VolatilityResponse(BaseModel):
+    volatility: float
