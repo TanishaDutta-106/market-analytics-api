@@ -4,10 +4,13 @@ from app.models.schemas import (
     MovingAverageResponse,
     VolatilityRequest,
     VolatilityResponse,
+    ReturnsRequest,
+    ReturnsResponse,
 )
 from app.services.calculations import (
     calculate_moving_average,
     calculate_volatility,
+    calculate_returns,
 )
 
 router = APIRouter(
@@ -42,6 +45,21 @@ def volatility(request: VolatilityRequest):
             prices=request.prices,
         )
         return {"volatility": result}
+    except ValueError as e:
+        raise HTTPException(
+            status_code=400,
+            detail=str(e),
+        )
+@router.post(
+    "/returns",
+    response_model=ReturnsResponse,
+)
+def returns(request: ReturnsRequest):
+    try:
+        result = calculate_returns(
+            prices=request.prices,
+        )
+        return {"returns": result}
     except ValueError as e:
         raise HTTPException(
             status_code=400,
