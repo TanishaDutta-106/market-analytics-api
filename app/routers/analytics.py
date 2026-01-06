@@ -2,8 +2,13 @@ from fastapi import APIRouter, HTTPException
 from app.models.schemas import (
     MovingAverageRequest,
     MovingAverageResponse,
+    VolatilityRequest,
+    VolatilityResponse,
 )
-from app.services.calculations import calculate_moving_average
+from app.services.calculations import (
+    calculate_moving_average,
+    calculate_volatility,
+)
 
 router = APIRouter(
     prefix="/analytics",
@@ -21,6 +26,22 @@ def moving_average(request: MovingAverageRequest):
             window=request.window,
         )
         return {"moving_average": result}
+    except ValueError as e:
+        raise HTTPException(
+            status_code=400,
+            detail=str(e),
+        )
+
+@router.post(
+    "/volatility",
+    response_model=VolatilityResponse,
+)
+def volatility(request: VolatilityRequest):
+    try:
+        result = calculate_volatility(
+            prices=request.prices,
+        )
+        return {"volatility": result}
     except ValueError as e:
         raise HTTPException(
             status_code=400,
